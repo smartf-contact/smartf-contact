@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スマートF お問い合わせフォーム</title>
+
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Hiragino Sans', 'Meiryo', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      min-height: 100vh;
+      padding: 40px 16px;
+    }
+
+    .form-wrapper {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      padding: 40px 48px 48px;
+    }
+
+    .form-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .form-logo img {
+      width: 120px;
+      height: auto;
+    }
+
+    .form-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+    .form-subtitle {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 32px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label.field-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
+    label.field-label .required {
+      color: #e53e3e;
+      margin-left: 4px;
+    }
+
+    .field-sublabel {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #333;
+      background: #fff;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+    input.error, select.error, textarea.error {
+      border-color: #e53e3e;
+    }
+
+    select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+
+    textarea { resize: vertical; line-height: 1.6; }
+
+    /* Conditional hint boxes */
+    .inquiry-hint {
+      display: none;
+      background: #f0f7ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #1e40af;
+      line-height: 1.8;
+      margin-bottom: 8px;
+      white-space: pre-wrap;
+    }
+    .inquiry-hint.visible { display: block; }
+
+    /* File upload */
+    .file-upload-area {
+      border: 2px dashed #d1d5db;
+      border-radius: 6px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .file-upload-area:hover { border-color: #3b82f6; background: #f8faff; }
+    .file-upload-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .file-upload-icon { font-size: 28px; margin-bottom: 8px; }
+    .file-upload-text { font-size: 14px; color: #666; }
+    .file-upload-text span { color: #3b82f6; font-weight: 600; }
+    .file-names { margin-top: 8px; font-size: 13px; color: #555; }
+
+    /* Checkbox */
+    .checkbox-group { display: flex; align-items: flex-start; gap: 10px; }
+    .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; margin-top: 2px; flex-shrink: 0; }
+    .checkbox-label { font-size: 14px; line-height: 1.6; }
+    .checkbox-label a { color: #3b82f6; }
+
+    /* Submit */
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 8px;
+    }
+    .submit-btn:hover { background: #1d4ed8; }
+    .submit-btn:active { transform: scale(0.99); }
+    .submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+
+    /* Messages */
+    .msg {
+      padding: 14px 18px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .msg.success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; display: block; }
+    .msg.error-msg { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; display: block; }
+
+    .error-text { font-size: 12px; color: #e53e3e; margin-top: 4px; display: none; }
+    .error-text.visible { display: block; }
+
+    @media (max-width: 600px) {
+      .form-wrapper { padding: 24px 20px 36px; }
+      .form-title { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-wrapper">
+  <div class="form-logo">
+    <img src="https://www.jotform.com/uploads/naruki564/form_files/SmartF-logo-fullcolor-ver02-1000x1000.68db7b4a27d504.44206795.png" alt="スマートF ロゴ">
+  </div>
+
+  <h1 class="form-title">スマートFお問い合わせフォーム</h1>
+  <p class="form-subtitle">「*」の内容は必須となります。</p>
+
+  <div id="successMsg" class="msg success" style="display:none">
+    お問い合わせを受け付けました。担当者よりご連絡いたします。
+  </div>
+  <div id="errorMsg" class="msg error-msg" style="display:none">
+    送信に失敗しました。時間をおいて再度お試しください。
+  </div>
+
+  <form id="inquiryForm" novalidate>
+
+    <!-- メールアドレス -->
+    <div class="form-group">
+      <label class="field-label" for="email">メールアドレス <span class="required">*</span></label>
+      <input type="email" id="email" name="email" placeholder="example@example.com" autocomplete="email">
+      <div class="error-text" id="emailError">有効なメールアドレスを入力してください。</div>
+    </div>
+
+    <!-- 電話番号 -->
+    <div class="form-group">
+      <label class="field-label" for="phone">電話番号</label>
+      <input type="tel" id="phone" name="phone" placeholder="06-6539-5505" autocomplete="tel">
+      <div class="field-sublabel">※お問合せについては、原則メールにて回答とさせていただき、緊急性の高いものについてはお電話させていただくことがございます</div>
+    </div>
+
+    <!-- 会社名 -->
+    <div class="form-group">
+      <label class="field-label" for="company">会社名 <span class="required">*</span></label>
+      <input type="text" id="company" name="company" placeholder="株式会社ネクスタ" autocomplete="organization">
+      <div class="error-text" id="companyError">会社名を入力してください。</div>
+    </div>
+
+    <!-- ご担当者名 -->
+    <div class="form-group">
+      <label class="field-label" for="contact">ご担当者名 <span class="required">*</span></label>
+      <input type="text" id="contact" name="contact" placeholder="根区　州太郎" autocomplete="name">
+      <div class="error-text" id="contactError">担当者名を入力してください。</div>
+    </div>
+
+    <!-- お問合せ種別 -->
+    <div class="form-group">
+      <label class="field-label" for="category">お問合せ種別 <span class="required">*</span></label>
+      <select id="category" name="category">
+        <option value="">選択してください</option>
+        <option value="操作に関するお問合せ">操作に関するお問合せ</option>
+        <option value="エラーや不具合に関するお問合せ">エラーや不具合に関するお問合せ</option>
+        <option value="ライセンスに関するお問合せ">ライセンスに関するお問合せ</option>
+        <option value="その他のお問合せ">その他のお問合せ</option>
+      </select>
+      <div class="error-text" id="categoryError">お問合せ種別を選択してください。</div>
+    </div>
+
+    <!-- お問合せ内容 -->
+    <div class="form-group">
+      <label class="field-label" for="content">お問合せ内容 <span class="required">*</span></label>
+      <div id="contentHint" class="inquiry-hint"></div>
+      <textarea id="content" name="content" rows="10" placeholder="お問合せ内容を入力してください。"></textarea>
+      <div class="error-text" id="contentError">お問合せ内容を入力してください。</div>
+    </div>
+
+    <!-- 情報記入欄（任意） -->
+    <div class="form-group">
+      <label class="field-label" for="extra">お問合せに関しての情報記入欄（任意）</label>
+      <div id="extraHint" class="inquiry-hint"></div>
+      <textarea id="extra" name="extra" rows="6" placeholder="補足情報があればご記入ください。"></textarea>
+    </div>
+
+    <!-- 参考画像 -->
+    <div class="form-group">
+      <label class="field-label">参考画像</label>
+      <div class="file-upload-area" id="fileDropArea">
+        <input type="file" id="fileInput" name="files" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png,.gif,.zip">
+        <div class="file-upload-icon">📎</div>
+        <div class="file-upload-text">ファイルをドラッグ＆ドロップ、または <span>クリックして選択</span></div>
+        <div id="fileNames" class="file-names"></div>
+      </div>
+      <div class="field-sublabel">CSVに関するお問合せの場合は、こちらに該当のCSVデータを添付してください。</div>
+    </div>
+
+    <!-- 個人情報同意 -->
+    <div class="form-group">
+      <label class="field-label">個人情報の取り扱いへの同意</label>
+      <div class="checkbox-group">
+        <input type="checkbox" id="privacy" name="privacy">
+        <label class="checkbox-label" for="privacy">
+          弊社<a href="https://smartf-nexta.com/privacy-policy" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、同意します。
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">送信</button>
+  </form>
+</div>
+
+<script>
+  // ============================================================
+  // GAS 設定
+  // ============================================================
+  // GASをデプロイして取得したURLを貼り付けてください。
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzvGfdYTb-VENuDe3UuFothDdfXpfLSKEXOXNcGenuQnltRILvuitJYkMVAFgXbPJBP/exec';
+
+  // ============================================================
+  // 条件分岐ヒント
+  // ============================================================
+  const hints = {
+    content: {
+      '操作に関するお問合せ':
+`1：端末（PC、HT、WEBのいずれかを入力してください）
+
+2：どの機能／画面でしょうか（例：生産一覧画面）
+
+3：どのような処理でしょうか（データ作成、現場での登録作業、CSV入出力、帳票・ラベル）
+
+4：お問合せ内容について詳細を教えてください`,
+
+      'エラーや不具合に関するお問合せ':
+`1：端末（パソコン、ハンディ、WEBのいずれを選択してください）
+
+2：どの機能／画面でしょうか（例：生産一覧画面）
+
+3：どのような処理でしょうか（データ作成、現場での登録作業、CSV入出力、帳票・ラベル）
+
+4：該当の伝票No、品番等を教えてください
+
+5：症状について詳細を教えてください`,
+
+      'ライセンスに関するお問合せ':
+`1：ライセンスに関して追加希望／入替希望／金額説明希望／その他のいずれのお問合せか記載してください。
+
+2：ライセンスについてのお問合せ詳細を教えてください。`,
+    },
+    extra: {
+      '操作に関するお問合せ':
+`5：（データに関するお問合せの場合）該当の伝票No、品番等を教えてください。
+
+6：（帳票に関するお問合せの場合）該当帳票のフォーマット名を記載してください。
+
+7：（項目名変更、項目表示設定に関するお問合せの場合）該当画面と項目名を記入してください。
+
+8：（ラベル発行に関するお問合せの場合）どのメニュー名から発行したかご記載してください。`,
+
+      'エラーや不具合に関するお問合せ':
+`6：エラーや警告メッセージが表示されている場合は、メッセージをご入力ください
+　※スマートＦで表示されるメッセージはコピーが可能です
+
+7：いつからどのようなタイミングで発生していますか？`,
+
+      'ライセンスに関するお問合せ':
+`3：（ライセンスの入替希望に関するお問合せの場合）入れ替えを行いたいライセンス情報を記入してください。
+※ライセンス情報はメインメニュー右上のアイコンよりご確認いただけます`,
+    }
+  };
+
+  const categorySelect = document.getElementById('category');
+  const contentHint    = document.getElementById('contentHint');
+  const extraHint      = document.getElementById('extraHint');
+
+  categorySelect.addEventListener('change', () => {
+    const val = categorySelect.value;
+    updateHint(contentHint, hints.content[val]);
+    updateHint(extraHint,   hints.extra[val]);
+  });
+
+  function updateHint(el, text) {
+    if (text) {
+      el.textContent = text;
+      el.classList.add('visible');
+    } else {
+      el.textContent = '';
+      el.classList.remove('visible');
+    }
+  }
+
+  // ============================================================
+  // ファイル名表示
+  // ============================================================
+  document.getElementById('fileInput').addEventListener('change', function() {
+    const names = Array.from(this.files).map(f => f.name).join('、');
+    document.getElementById('fileNames').textContent = names || '';
+  });
+
+  // ============================================================
+  // バリデーション
+  // ============================================================
+  function validate() {
+    let ok = true;
+
+    const rules = [
+      { id: 'email',    errId: 'emailError',    check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      { id: 'company',  errId: 'companyError',  check: v => v.trim() !== '' },
+      { id: 'contact',  errId: 'contactError',  check: v => v.trim() !== '' },
+      { id: 'category', errId: 'categoryError', check: v => v !== '' },
+      { id: 'content',  errId: 'contentError',  check: v => v.trim() !== '' },
+    ];
+
+    rules.forEach(({ id, errId, check }) => {
+      const el  = document.getElementById(id);
+      const err = document.getElementById(errId);
+      if (!check(el.value)) {
+        el.classList.add('error');
+        err.classList.add('visible');
+        ok = false;
+      } else {
+        el.classList.remove('error');
+        err.classList.remove('visible');
+      }
+    });
+
+    return ok;
+  }
+
+  // ============================================================
+  // 送信
+  // ============================================================
+  document.getElementById('inquiryForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    document.getElementById('successMsg').style.display = 'none';
+    document.getElementById('errorMsg').style.display   = 'none';
+
+    if (!validate()) return;
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled    = true;
+    btn.textContent = '送信中...';
+
+    const params = new URLSearchParams({
+      email:    document.getElementById('email').value,
+      phone:    document.getElementById('phone').value    || '（未入力）',
+      company:  document.getElementById('company').value,
+      contact:  document.getElementById('contact').value,
+      category: document.getElementById('category').value,
+      content:  document.getElementById('content').value,
+      extra:    document.getElementById('extra').value    || '（なし）',
+      privacy:  document.getElementById('privacy').checked ? '同意する' : '同意しない',
+    });
+
+    try {
+      const res = await fetch(GAS_URL, { method: 'POST', body: params });
+      const json = await res.json();
+      if (json.status !== 'ok') throw new Error(json.message);
+      document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('inquiryForm').reset();
+      contentHint.classList.remove('visible');
+      extraHint.classList.remove('visible');
+      document.getElementById('fileNames').textContent = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error(err);
+      document.getElementById('errorMsg').style.display = 'block';
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = '送信';
+    }
+  });
+</script>
+
+</body>
+</html>
