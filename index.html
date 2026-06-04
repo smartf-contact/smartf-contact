@@ -29,7 +29,6 @@
     .form-title { font-size: 22px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
     .form-subtitle { font-size: 13px; color: #888; margin-bottom: 32px; }
 
-    /* ---- Base fields ---- */
     .form-group { margin-bottom: 22px; }
 
     label.field-label {
@@ -57,14 +56,9 @@
     .error-text { font-size: 12px; color: #e53e3e; margin-top: 4px; display: none; }
     .error-text.visible { display: block; }
 
-    /* ---- Divider ---- */
-    .section-divider {
-      border: none; border-top: 1px solid #e5e7eb; margin: 28px 0;
-    }
+    .section-divider { border: none; border-top: 1px solid #e5e7eb; margin: 28px 0; }
 
     /* ---- 1問1答エリア ---- */
-    #qaSection { margin-top: 4px; }
-
     .qa-item {
       overflow: hidden;
       max-height: 0;
@@ -72,11 +66,7 @@
       transition: max-height 0.4s ease, opacity 0.35s ease, margin-bottom 0.4s ease;
       margin-bottom: 0;
     }
-    .qa-item.visible {
-      max-height: 500px;
-      opacity: 1;
-      margin-bottom: 22px;
-    }
+    .qa-item.visible { max-height: 600px; opacity: 1; margin-bottom: 22px; }
 
     .qa-label {
       display: block; font-size: 14px; font-weight: 600;
@@ -87,9 +77,7 @@
       width: 22px; height: 22px; background: #2563eb; color: #fff;
       border-radius: 50%; font-size: 11px; font-weight: 700; margin-right: 8px;
     }
-    .qa-optional {
-      font-size: 11px; color: #9ca3af; font-weight: 400; margin-left: 6px;
-    }
+    .qa-optional { font-size: 11px; color: #9ca3af; font-weight: 400; margin-left: 6px; }
     .qa-item input[type="text"], .qa-item textarea {
       border-color: #bfdbfe; background: #f8faff;
     }
@@ -98,18 +86,13 @@
     }
 
     /* ---- Kブック検索結果 ---- */
-    .kb-results {
-      margin-top: 10px;
-      display: none;
-    }
+    .kb-results { margin-top: 10px; display: none; }
     .kb-results.visible { display: block; }
     .kb-results-header {
       font-size: 12px; font-weight: 600; color: #6b7280;
       margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
     }
-    .kb-results-header::before {
-      content: '💡'; font-size: 14px;
-    }
+    .kb-results-header::before { content: '💡'; font-size: 14px; }
     .kb-card {
       border: 1px solid #e0e7ff; border-radius: 6px;
       padding: 10px 14px; margin-bottom: 6px;
@@ -167,10 +150,7 @@
     .submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
 
     /* ---- Messages ---- */
-    .msg {
-      padding: 14px 18px; border-radius: 6px; font-size: 14px;
-      margin-bottom: 20px; display: none;
-    }
+    .msg { padding: 14px 18px; border-radius: 6px; font-size: 14px; margin-bottom: 20px; display: none; }
     .msg.success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
     .msg.error-msg { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
 
@@ -198,35 +178,30 @@
 
   <form id="inquiryForm" novalidate>
 
-    <!-- メールアドレス -->
     <div class="form-group">
       <label class="field-label" for="email">メールアドレス <span class="required">*</span></label>
       <input type="email" id="email" name="email" placeholder="example@example.com" autocomplete="email">
       <div class="error-text" id="emailError">有効なメールアドレスを入力してください。</div>
     </div>
 
-    <!-- 電話番号 -->
     <div class="form-group">
       <label class="field-label" for="phone">電話番号</label>
       <input type="tel" id="phone" name="phone" placeholder="06-6539-5505" autocomplete="tel">
       <div class="field-sublabel">※原則メールにて回答。緊急性の高いものはお電話する場合があります</div>
     </div>
 
-    <!-- 会社名 -->
     <div class="form-group">
       <label class="field-label" for="company">会社名 <span class="required">*</span></label>
       <input type="text" id="company" name="company" placeholder="株式会社ネクスタ" autocomplete="organization">
       <div class="error-text" id="companyError">会社名を入力してください。</div>
     </div>
 
-    <!-- ご担当者名 -->
     <div class="form-group">
       <label class="field-label" for="contact">ご担当者名 <span class="required">*</span></label>
       <input type="text" id="contact" name="contact" placeholder="根区　州太郎" autocomplete="name">
       <div class="error-text" id="contactError">担当者名を入力してください。</div>
     </div>
 
-    <!-- お問合せ種別 -->
     <div class="form-group">
       <label class="field-label" for="category">お問合せ種別 <span class="required">*</span></label>
       <select id="category" name="category">
@@ -241,10 +216,8 @@
 
     <hr class="section-divider">
 
-    <!-- 1問1答エリア -->
     <div id="qaSection"></div>
 
-    <!-- 参考画像 -->
     <div class="form-group" id="fileGroup" style="display:none">
       <label class="field-label">参考画像・添付ファイル</label>
       <div class="file-upload-area">
@@ -257,7 +230,6 @@
       <div class="field-sublabel">CSVに関するお問合せの場合は、該当のCSVデータを添付してください。</div>
     </div>
 
-    <!-- 個人情報同意 -->
     <div class="form-group" id="privacyGroup" style="display:none">
       <label class="field-label">個人情報の取り扱いへの同意</label>
       <div class="checkbox-group">
@@ -273,328 +245,298 @@
 </div>
 
 <script>
-// ================================================================
-// 設定
-// ================================================================
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzvGfdYTb-VENuDe3UuFothDdfXpfLSKEXOXNcGenuQnltRILvuitJYkMVAFgXbPJBP/exec';
+  // ================================================================
+  // 設定
+  // ================================================================
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzvGfdYTb-VENuDe3UuFothDdfXpfLSKEXOXNcGenuQnltRILvuitJYkMVAFgXbPJBP/exec';
 
-// ================================================================
-// 設問定義
-// ================================================================
-const QUESTIONS = {
-  '操作に関するお問合せ': [
-    { label: '端末を教えてください',        placeholder: 'PC / HT / WEB のいずれかを入力してください',                      type: 'text',     required: true  },
-    { label: 'どの機能・画面でしょうか？',   placeholder: '例：生産一覧画面',                                              type: 'text',     required: true  },
-    { label: 'どのような処理ですか？',       placeholder: 'データ作成 / 現場での登録作業 / CSV入出力 / 帳票・ラベルなど',   type: 'text',     required: false },
-    { label: 'お問合せ内容の詳細を教えてください', placeholder: '具体的な状況や操作手順を記入してください',               type: 'textarea', required: true,  search: true },
-    { label: '（データ関連）該当の伝票No・品番等', placeholder: '例：伝票No.12345、品番：AB-001',                        type: 'text',     required: false },
-    { label: '（帳票関連）該当帳票のフォーマット名', placeholder: '例：出荷指示書',                                     type: 'text',     required: false },
-    { label: '（項目名変更・表示設定）該当画面と項目名', placeholder: '例：生産一覧画面 > 数量項目',                    type: 'text',     required: false },
-    { label: '（ラベル発行）どのメニューから発行しましたか？', placeholder: '例：在庫管理 > ラベル発行',               type: 'text',     required: false },
-  ],
-  'エラーや不具合に関するお問合せ': [
-    { label: '端末を教えてください',          placeholder: 'パソコン / ハンディ / WEB のいずれかを選択してください',        type: 'text',     required: true  },
-    { label: 'どの機能・画面でしょうか？',     placeholder: '例：生産一覧画面',                                           type: 'text',     required: true  },
-    { label: 'どのような処理ですか？',         placeholder: 'データ作成 / 現場での登録作業 / CSV入出力 / 帳票・ラベルなど', type: 'text',     required: false },
-    { label: '該当の伝票No・品番等',           placeholder: '例：伝票No.12345、品番：AB-001',                             type: 'text',     required: false },
-    { label: '症状について詳細を教えてください', placeholder: '具体的な症状をご記入ください',                            type: 'textarea', required: true,  search: true },
-    { label: 'エラー・警告メッセージ（あれば）', placeholder: 'スマートＦのメッセージはコピー可能です',                  type: 'textarea', required: false },
-    { label: 'いつから、どのようなタイミングで発生していますか？', placeholder: '例：先週月曜から、ログイン時に毎回発生', type: 'text',     required: false },
-  ],
-  'ライセンスに関するお問合せ': [
-    { label: 'お問合せの種類を教えてください', placeholder: '追加希望 / 入替希望 / 金額説明希望 / その他',               type: 'text',     required: true  },
-    { label: 'ライセンスについてのお問合せ詳細', placeholder: '詳細をご記入ください',                                    type: 'textarea', required: true,  search: true },
-    { label: '（入替希望の場合）入れ替えたいライセンス情報', placeholder: 'メインメニュー右上のアイコンよりご確認いただけます', type: 'text', required: false },
-  ],
-  'その他のお問合せ': [
-    { label: 'お問合せ内容の詳細を教えてください', placeholder: '詳細をご記入ください',                                  type: 'textarea', required: true,  search: true },
-  ],
-};
+  // ================================================================
+  // 設問定義
+  // ================================================================
+  const QUESTIONS = {
+    '操作に関するお問合せ': [
+      { label: '端末を教えてください',              placeholder: 'PC / HT / WEB のいずれかを入力してください',                     type: 'text',     required: true  },
+      { label: 'どの機能・画面でしょうか？',         placeholder: '例：生産一覧画面',                                             type: 'text',     required: true  },
+      { label: 'どのような処理ですか？',             placeholder: 'データ作成 / 現場での登録作業 / CSV入出力 / 帳票・ラベルなど',  type: 'text',     required: false },
+      { label: 'お問合せ内容の詳細を教えてください', placeholder: '具体的な状況や操作手順を記入してください',                      type: 'textarea', required: true,  search: true },
+      { label: '（データ関連）該当の伝票No・品番等', placeholder: '例：伝票No.12345、品番：AB-001',                              type: 'text',     required: false },
+      { label: '（帳票関連）該当帳票のフォーマット名', placeholder: '例：出荷指示書',                                            type: 'text',     required: false },
+      { label: '（項目名変更・表示設定）該当画面と項目名', placeholder: '例：生産一覧画面 > 数量項目',                           type: 'text',     required: false },
+      { label: '（ラベル発行）どのメニューから発行しましたか？', placeholder: '例：在庫管理 > ラベル発行',                       type: 'text',     required: false },
+    ],
+    'エラーや不具合に関するお問合せ': [
+      { label: '端末を教えてください',                placeholder: 'パソコン / ハンディ / WEB のいずれかを選択してください',       type: 'text',     required: true  },
+      { label: 'どの機能・画面でしょうか？',           placeholder: '例：生産一覧画面',                                          type: 'text',     required: true  },
+      { label: 'どのような処理ですか？',               placeholder: 'データ作成 / 現場での登録作業 / CSV入出力 / 帳票・ラベルなど', type: 'text',    required: false },
+      { label: '該当の伝票No・品番等',                 placeholder: '例：伝票No.12345、品番：AB-001',                            type: 'text',     required: false },
+      { label: '症状について詳細を教えてください',     placeholder: '具体的な症状をご記入ください',                              type: 'textarea', required: true,  search: true },
+      { label: 'エラー・警告メッセージ（あれば）',     placeholder: 'スマートＦのメッセージはコピー可能です',                     type: 'textarea', required: false },
+      { label: 'いつから、どのようなタイミングで発生していますか？', placeholder: '例：先週月曜から、ログイン時に毎回発生',      type: 'text',     required: false },
+    ],
+    'ライセンスに関するお問合せ': [
+      { label: 'お問合せの種類を教えてください',       placeholder: '追加希望 / 入替希望 / 金額説明希望 / その他',               type: 'text',     required: true  },
+      { label: 'ライセンスについてのお問合せ詳細',     placeholder: '詳細をご記入ください',                                      type: 'textarea', required: true,  search: true },
+      { label: '（入替希望の場合）入れ替えたいライセンス情報', placeholder: 'メインメニュー右上のアイコンよりご確認いただけます', type: 'text',    required: false },
+    ],
+    'その他のお問合せ': [
+      { label: 'お問合せ内容の詳細を教えてください',   placeholder: '詳細をご記入ください',                                      type: 'textarea', required: true,  search: true },
+    ],
+  };
 
-// ================================================================
-// 状態管理
-// ================================================================
-let currentAnswers = [];
-let visibleCount   = 0;
-let qaItems        = [];
-let kbTimer        = null;
+  // ================================================================
+  // 状態管理
+  // ================================================================
+  let currentAnswers = [];
+  let visibleCount   = 0;
+  let qaItems        = [];
+  let kbTimer        = null;
 
-// ================================================================
-// カテゴリ選択
-// ================================================================
-document.getElementById('category').addEventListener('change', function () {
-  const cat = this.value;
-  buildQA(cat);
-});
-
-function buildQA(cat) {
-  const section = document.getElementById('qaSection');
-  section.innerHTML = '';
-  qaItems        = [];
-  currentAnswers = [];
-  visibleCount   = 0;
-
-  document.getElementById('fileGroup').style.display    = 'none';
-  document.getElementById('privacyGroup').style.display = 'none';
-  document.getElementById('submitBtn').style.display    = 'none';
-
-  if (!cat || !QUESTIONS[cat]) return;
-
-  const qs = QUESTIONS[cat];
-  qs.forEach((q, idx) => {
-    currentAnswers.push('');
-    const item = createQAItem(q, idx);
-    section.appendChild(item.wrapper);
-    qaItems.push(item);
+  // ================================================================
+  // カテゴリ選択
+  // ================================================================
+  document.getElementById('category').addEventListener('change', function () {
+    buildQA(this.value);
   });
 
-  // 最初の設問を表示
-  showQuestion(0);
-}
-
-function createQAItem(q, idx) {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'qa-item';
-
-  const label = document.createElement('label');
-  label.className = 'qa-label';
-  label.htmlFor = `qa_${idx}`;
-  label.innerHTML = `<span class="qa-num">${idx + 1}</span>${q.label}${q.required ? '' : '<span class="qa-optional">任意</span>'}`;
-
-  let input;
-  if (q.type === 'textarea') {
-    input = document.createElement('textarea');
-    input.rows = 5;
-  } else {
-    input = document.createElement('input');
-    input.type = 'text';
-  }
-  input.id          = `qa_${idx}`;
-  input.placeholder = q.placeholder;
-
-  wrapper.appendChild(label);
-
-  // Kブック検索UIの挿入
-  if (q.search) {
-    const searching = document.createElement('div');
-    searching.className = 'kb-searching';
-    searching.id = `kb_searching_${idx}`;
-    searching.innerHTML = '<div class="kb-spinner"></div><span>関連記事を検索中...</span>';
-
-    const results = document.createElement('div');
-    results.className = 'kb-results';
-    results.id = `kb_results_${idx}`;
-
-    wrapper.appendChild(input);
-    wrapper.appendChild(searching);
-    wrapper.appendChild(results);
-
-    input.addEventListener('input', () => {
-      currentAnswers[idx] = input.value;
-      scheduleKBSearch(input.value, idx);
-      scheduleNextReveal(idx, input, q);
-    });
-    input.addEventListener('blur', () => {
-      currentAnswers[idx] = input.value;
-      revealNext(idx, q);
-    });
-  } else {
-    wrapper.appendChild(input);
-
-    input.addEventListener('input', () => {
-      currentAnswers[idx] = input.value;
-      scheduleNextReveal(idx, input, q);
-    });
-    input.addEventListener('blur', () => {
-      currentAnswers[idx] = input.value;
-      revealNext(idx, q);
-    });
-  }
-
-  return { wrapper, input };
-}
-
-function showQuestion(idx) {
-  if (idx >= qaItems.length) return;
-  if (visibleCount <= idx) {
-    qaItems[idx].wrapper.classList.add('visible');
-    visibleCount = idx + 1;
-    setTimeout(() => qaItems[idx].input.focus(), 420);
-  }
-}
-
-let revealTimers = {};
-function scheduleNextReveal(idx, input, q) {
-  clearTimeout(revealTimers[idx]);
-  if (!q.required || input.value.trim()) {
-    revealTimers[idx] = setTimeout(() => revealNext(idx, q), 1200);
-  }
-}
-
-function revealNext(idx, q) {
-  if (q.required && !currentAnswers[idx].trim()) return;
-  const next = idx + 1;
-  if (next < qaItems.length) {
-    showQuestion(next);
-  } else {
-    // 全設問完了 → 添付・同意・送信ボタンを表示
-    document.getElementById('fileGroup').style.display    = 'block';
-    document.getElementById('privacyGroup').style.display = 'block';
-    document.getElementById('submitBtn').style.display    = 'block';
-  }
-}
-
-// ================================================================
-// Kブック検索
-// ================================================================
-function scheduleKBSearch(query, idx) {
-  clearTimeout(kbTimer);
-  const resultsEl   = document.getElementById(`kb_results_${idx}`);
-  const searchingEl = document.getElementById(`kb_searching_${idx}`);
-
-  if (!query || query.trim().length < 4) {
-    if (resultsEl)   { resultsEl.classList.remove('visible'); resultsEl.innerHTML = ''; }
-    if (searchingEl) searchingEl.classList.remove('visible');
-    return;
-  }
-
-  if (searchingEl) searchingEl.classList.add('visible');
-
-  kbTimer = setTimeout(async () => {
-    try {
-      const url  = `${GAS_URL}?action=search&query=${encodeURIComponent(query.trim())}`;
-      const res  = await fetch(url);
-      const data = await res.json();
-
-      if (searchingEl) searchingEl.classList.remove('visible');
-      if (!resultsEl) return;
-
-      if (!data.results || data.results.length === 0) {
-        resultsEl.classList.remove('visible');
-        return;
-      }
-
-      resultsEl.innerHTML = `
-        <div class="kb-results-header">この記事で解決できるかもしれません</div>
-        ${data.results.map(a => `
-          <div class="kb-card">
-            <a href="${a.html_url}" target="_blank" rel="noopener">${a.title}</a>
-            <div class="kb-card-body">${stripHtml(a.body || '').slice(0, 80)}…</div>
-          </div>
-        `).join('')}
-      `;
-      resultsEl.classList.add('visible');
-    } catch (e) {
-      if (searchingEl) searchingEl.classList.remove('visible');
-    }
-  }, 600);
-}
-
-function stripHtml(html) {
-  const tmp = document.createElement('div');
-  tmp.innerHTML = html;
-  return tmp.textContent || tmp.innerText || '';
-}
-
-// ================================================================
-// ファイル名表示
-// ================================================================
-document.getElementById('fileInput').addEventListener('change', function () {
-  const names = Array.from(this.files).map(f => f.name).join('、');
-  document.getElementById('fileNames').textContent = names;
-});
-
-// ================================================================
-// バリデーション
-// ================================================================
-function validate() {
-  let ok = true;
-
-  const baseRules = [
-    { id: 'email',    errId: 'emailError',    check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
-    { id: 'company',  errId: 'companyError',  check: v => v.trim() !== '' },
-    { id: 'contact',  errId: 'contactError',  check: v => v.trim() !== '' },
-    { id: 'category', errId: 'categoryError', check: v => v !== '' },
-  ];
-
-  baseRules.forEach(({ id, errId, check }) => {
-    const el  = document.getElementById(id);
-    const err = document.getElementById(errId);
-    if (!check(el.value)) {
-      el.classList.add('error');
-      err.classList.add('visible');
-      ok = false;
-    } else {
-      el.classList.remove('error');
-      err.classList.remove('visible');
-    }
-  });
-
-  // 必須設問チェック
-  const cat = document.getElementById('category').value;
-  if (cat && QUESTIONS[cat]) {
-    QUESTIONS[cat].forEach((q, idx) => {
-      if (q.required && !currentAnswers[idx]?.trim()) {
-        const input = document.getElementById(`qa_${idx}`);
-        if (input) input.classList.add('error');
-        ok = false;
-      }
-    });
-  }
-
-  return ok;
-}
-
-// ================================================================
-// 送信
-// ================================================================
-document.getElementById('inquiryForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  document.getElementById('successMsg').style.display = 'none';
-  document.getElementById('errorMsg').style.display   = 'none';
-
-  if (!validate()) return;
-
-  // 設問と回答を整形してcontentに集約
-  const cat = document.getElementById('category').value;
-  const qs  = QUESTIONS[cat] || [];
-  const contentLines = qs.map((q, i) => {
-    const ans = currentAnswers[i]?.trim();
-    if (!ans) return null;
-    return `【${q.label}】\n${ans}`;
-  }).filter(Boolean).join('\n\n');
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.textContent = '送信中...';
-
-  const params = new URLSearchParams({
-    email:    document.getElementById('email').value,
-    phone:    document.getElementById('phone').value || '（未入力）',
-    company:  document.getElementById('company').value,
-    contact:  document.getElementById('contact').value,
-    category: cat,
-    content:  contentLines,
-    extra:    '',
-    privacy:  document.getElementById('privacy').checked ? '同意する' : '同意しない',
-  });
-
-  try {
-    await fetch(GAS_URL, { method: 'POST', body: params, mode: 'no-cors' });
-    document.getElementById('successMsg').style.display = 'block';
-    document.getElementById('inquiryForm').reset();
-    document.getElementById('qaSection').innerHTML = '';
+  function buildQA(cat) {
+    const section = document.getElementById('qaSection');
+    section.innerHTML = '';
+    qaItems = []; currentAnswers = []; visibleCount = 0;
     document.getElementById('fileGroup').style.display    = 'none';
     document.getElementById('privacyGroup').style.display = 'none';
     document.getElementById('submitBtn').style.display    = 'none';
-    currentAnswers = []; visibleCount = 0; qaItems = [];
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (err) {
-    console.error(err);
-    document.getElementById('errorMsg').style.display = 'block';
-  } finally {
-    btn.disabled = false; btn.textContent = '送信';
+    if (!cat || !QUESTIONS[cat]) return;
+    QUESTIONS[cat].forEach((q, idx) => {
+      currentAnswers.push('');
+      const item = createQAItem(q, idx);
+      section.appendChild(item.wrapper);
+      qaItems.push(item);
+    });
+    showQuestion(0);
   }
-});
+
+  function createQAItem(q, idx) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'qa-item';
+
+    const label = document.createElement('label');
+    label.className = 'qa-label';
+    label.htmlFor = `qa_${idx}`;
+    label.innerHTML = `<span class="qa-num">${idx + 1}</span>${q.label}${q.required ? '' : '<span class="qa-optional">任意</span>'}`;
+
+    let input;
+    if (q.type === 'textarea') {
+      input = document.createElement('textarea');
+      input.rows = 5;
+    } else {
+      input = document.createElement('input');
+      input.type = 'text';
+    }
+    input.id = `qa_${idx}`;
+    input.placeholder = q.placeholder;
+
+    wrapper.appendChild(label);
+
+    if (q.search) {
+      const searching = document.createElement('div');
+      searching.className = 'kb-searching';
+      searching.id = `kb_searching_${idx}`;
+      searching.innerHTML = '<div class="kb-spinner"></div><span>関連記事を検索中...</span>';
+
+      const results = document.createElement('div');
+      results.className = 'kb-results';
+      results.id = `kb_results_${idx}`;
+
+      wrapper.appendChild(input);
+      wrapper.appendChild(searching);
+      wrapper.appendChild(results);
+
+      input.addEventListener('input', () => {
+        currentAnswers[idx] = input.value;
+        scheduleKBSearch(input.value, idx);
+        scheduleNextReveal(idx, input, q);
+      });
+      input.addEventListener('blur', () => {
+        currentAnswers[idx] = input.value;
+        revealNext(idx, q);
+      });
+    } else {
+      wrapper.appendChild(input);
+      input.addEventListener('input', () => {
+        currentAnswers[idx] = input.value;
+        scheduleNextReveal(idx, input, q);
+      });
+      input.addEventListener('blur', () => {
+        currentAnswers[idx] = input.value;
+        revealNext(idx, q);
+      });
+    }
+
+    return { wrapper, input };
+  }
+
+  function showQuestion(idx) {
+    if (idx >= qaItems.length) return;
+    if (visibleCount <= idx) {
+      qaItems[idx].wrapper.classList.add('visible');
+      visibleCount = idx + 1;
+      setTimeout(() => qaItems[idx].input.focus(), 420);
+    }
+  }
+
+  let revealTimers = {};
+  function scheduleNextReveal(idx, input, q) {
+    clearTimeout(revealTimers[idx]);
+    if (!q.required || input.value.trim()) {
+      revealTimers[idx] = setTimeout(() => revealNext(idx, q), 1200);
+    }
+  }
+
+  function revealNext(idx, q) {
+    if (q.required && !currentAnswers[idx].trim()) return;
+    const next = idx + 1;
+    if (next < qaItems.length) {
+      showQuestion(next);
+    } else {
+      document.getElementById('fileGroup').style.display    = 'block';
+      document.getElementById('privacyGroup').style.display = 'block';
+      document.getElementById('submitBtn').style.display    = 'block';
+    }
+  }
+
+  // ================================================================
+  // Kブック検索（POSTでGAS経由）
+  // ================================================================
+  function scheduleKBSearch(query, idx) {
+    clearTimeout(kbTimer);
+    const resultsEl   = document.getElementById(`kb_results_${idx}`);
+    const searchingEl = document.getElementById(`kb_searching_${idx}`);
+
+    if (!query || query.trim().length < 4) {
+      if (resultsEl)   { resultsEl.classList.remove('visible'); resultsEl.innerHTML = ''; }
+      if (searchingEl) searchingEl.classList.remove('visible');
+      return;
+    }
+
+    if (searchingEl) searchingEl.classList.add('visible');
+
+    kbTimer = setTimeout(async () => {
+      try {
+        const params = new URLSearchParams({ action: 'search', query: query.trim() });
+        const res    = await fetch(GAS_URL, { method: 'POST', body: params });
+        const data   = await res.json();
+
+        if (searchingEl) searchingEl.classList.remove('visible');
+        if (!resultsEl) return;
+
+        if (!data.results || data.results.length === 0) {
+          resultsEl.classList.remove('visible');
+          return;
+        }
+
+        resultsEl.innerHTML = `
+          <div class="kb-results-header">この記事で解決できるかもしれません</div>
+          ${data.results.map(a => `
+            <div class="kb-card">
+              <a href="${a.url}" target="_blank" rel="noopener">${a.title}</a>
+              <div class="kb-card-body">${a.body}…</div>
+            </div>
+          `).join('')}
+        `;
+        resultsEl.classList.add('visible');
+      } catch (err) {
+        console.error('KB search error:', err);
+        if (searchingEl) searchingEl.classList.remove('visible');
+      }
+    }, 600);
+  }
+
+  // ================================================================
+  // ファイル名表示
+  // ================================================================
+  document.getElementById('fileInput').addEventListener('change', function () {
+    document.getElementById('fileNames').textContent = Array.from(this.files).map(f => f.name).join('、');
+  });
+
+  // ================================================================
+  // バリデーション
+  // ================================================================
+  function validate() {
+    let ok = true;
+    const baseRules = [
+      { id: 'email',    errId: 'emailError',    check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      { id: 'company',  errId: 'companyError',  check: v => v.trim() !== '' },
+      { id: 'contact',  errId: 'contactError',  check: v => v.trim() !== '' },
+      { id: 'category', errId: 'categoryError', check: v => v !== '' },
+    ];
+    baseRules.forEach(({ id, errId, check }) => {
+      const el = document.getElementById(id);
+      const err = document.getElementById(errId);
+      if (!check(el.value)) {
+        el.classList.add('error'); err.classList.add('visible'); ok = false;
+      } else {
+        el.classList.remove('error'); err.classList.remove('visible');
+      }
+    });
+    const cat = document.getElementById('category').value;
+    if (cat && QUESTIONS[cat]) {
+      QUESTIONS[cat].forEach((q, idx) => {
+        if (q.required && !currentAnswers[idx]?.trim()) {
+          const input = document.getElementById(`qa_${idx}`);
+          if (input) input.classList.add('error');
+          ok = false;
+        }
+      });
+    }
+    return ok;
+  }
+
+  // ================================================================
+  // 送信
+  // ================================================================
+  document.getElementById('inquiryForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    document.getElementById('successMsg').style.display = 'none';
+    document.getElementById('errorMsg').style.display   = 'none';
+    if (!validate()) return;
+
+    const cat = document.getElementById('category').value;
+    const qs  = QUESTIONS[cat] || [];
+    const contentLines = qs.map((q, i) => {
+      const ans = currentAnswers[i]?.trim();
+      return ans ? `【${q.label}】\n${ans}` : null;
+    }).filter(Boolean).join('\n\n');
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = '送信中...';
+
+    const params = new URLSearchParams({
+      email:    document.getElementById('email').value,
+      phone:    document.getElementById('phone').value || '（未入力）',
+      company:  document.getElementById('company').value,
+      contact:  document.getElementById('contact').value,
+      category: cat,
+      content:  contentLines,
+      privacy:  document.getElementById('privacy').checked ? '同意する' : '同意しない',
+    });
+
+    try {
+      await fetch(GAS_URL, { method: 'POST', body: params, mode: 'no-cors' });
+      document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('inquiryForm').reset();
+      document.getElementById('qaSection').innerHTML = '';
+      document.getElementById('fileGroup').style.display    = 'none';
+      document.getElementById('privacyGroup').style.display = 'none';
+      document.getElementById('submitBtn').style.display    = 'none';
+      currentAnswers = []; visibleCount = 0; qaItems = [];
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error(err);
+      document.getElementById('errorMsg').style.display = 'block';
+    } finally {
+      btn.disabled = false; btn.textContent = '送信';
+    }
+  });
 </script>
 </body>
 </html>
