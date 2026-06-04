@@ -422,9 +422,7 @@
     });
 
     try {
-      const res = await fetch(GAS_URL, { method: 'POST', body: params });
-      const json = await res.json();
-      if (json.status !== 'ok') throw new Error(json.message);
+      await fetch(GAS_URL, { method: 'POST', body: params, mode: 'no-cors' });
       document.getElementById('successMsg').style.display = 'block';
       document.getElementById('inquiryForm').reset();
       contentHint.classList.remove('visible');
