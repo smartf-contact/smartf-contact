@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>スマートF お問い合わせフォーム</title>
-
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -14,7 +12,7 @@
       background: #f5f5f5;
       color: #333;
       min-height: 100vh;
-      padding: 40px 16px;
+      padding: 40px 16px 80px;
     }
 
     .form-wrapper {
@@ -26,170 +24,175 @@
       padding: 40px 48px 48px;
     }
 
-    .form-logo {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    .form-logo img {
-      width: 120px;
-      height: auto;
-    }
+    .form-logo { text-align: center; margin-bottom: 28px; }
+    .form-logo img { width: 100px; height: auto; }
+    .form-title { font-size: 22px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+    .form-subtitle { font-size: 13px; color: #888; margin-bottom: 32px; }
 
-    .form-title {
-      font-size: 24px;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin-bottom: 6px;
-    }
-    .form-subtitle {
-      font-size: 13px;
-      color: #888;
-      margin-bottom: 32px;
-    }
-
-    .form-group {
-      margin-bottom: 24px;
-    }
+    /* ---- Base fields ---- */
+    .form-group { margin-bottom: 22px; }
 
     label.field-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #333;
+      display: block; font-size: 14px; font-weight: 600;
+      margin-bottom: 6px; color: #333;
     }
-    label.field-label .required {
-      color: #e53e3e;
-      margin-left: 4px;
-    }
+    label.field-label .required { color: #e53e3e; margin-left: 4px; }
+    .field-sublabel { font-size: 12px; color: #888; margin-top: 4px; }
 
-    .field-sublabel {
-      font-size: 12px;
-      color: #888;
-      margin-top: 4px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      font-size: 14px;
-      font-family: inherit;
-      color: #333;
-      background: #fff;
-      transition: border-color 0.2s;
-      outline: none;
+    input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+      width: 100%; padding: 10px 14px; border: 1px solid #d1d5db;
+      border-radius: 6px; font-size: 14px; font-family: inherit;
+      color: #333; background: #fff; transition: border-color 0.2s; outline: none;
     }
     input:focus, select:focus, textarea:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+      border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
     }
-    input.error, select.error, textarea.error {
-      border-color: #e53e3e;
+    input.error, select.error, textarea.error { border-color: #e53e3e; }
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px;
     }
-
-    select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
-
     textarea { resize: vertical; line-height: 1.6; }
+    .error-text { font-size: 12px; color: #e53e3e; margin-top: 4px; display: none; }
+    .error-text.visible { display: block; }
 
-    /* Conditional hint boxes */
-    .inquiry-hint {
-      display: none;
-      background: #f0f7ff;
-      border: 1px solid #bfdbfe;
-      border-radius: 6px;
-      padding: 12px 16px;
-      font-size: 13px;
-      color: #1e40af;
-      line-height: 1.8;
-      margin-bottom: 8px;
-      white-space: pre-wrap;
+    /* ---- Divider ---- */
+    .section-divider {
+      border: none; border-top: 1px solid #e5e7eb; margin: 28px 0;
     }
-    .inquiry-hint.visible { display: block; }
 
-    /* File upload */
+    /* ---- 1問1答エリア ---- */
+    #qaSection { margin-top: 4px; }
+
+    .qa-item {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.35s ease, margin-bottom 0.4s ease;
+      margin-bottom: 0;
+    }
+    .qa-item.visible {
+      max-height: 500px;
+      opacity: 1;
+      margin-bottom: 22px;
+    }
+
+    .qa-label {
+      display: block; font-size: 14px; font-weight: 600;
+      color: #1e40af; margin-bottom: 6px;
+    }
+    .qa-label .qa-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; background: #2563eb; color: #fff;
+      border-radius: 50%; font-size: 11px; font-weight: 700; margin-right: 8px;
+    }
+    .qa-optional {
+      font-size: 11px; color: #9ca3af; font-weight: 400; margin-left: 6px;
+    }
+    .qa-item input[type="text"], .qa-item textarea {
+      border-color: #bfdbfe; background: #f8faff;
+    }
+    .qa-item input[type="text"]:focus, .qa-item textarea:focus {
+      border-color: #3b82f6; background: #fff;
+    }
+
+    /* ---- Kブック検索結果 ---- */
+    .kb-results {
+      margin-top: 10px;
+      display: none;
+    }
+    .kb-results.visible { display: block; }
+    .kb-results-header {
+      font-size: 12px; font-weight: 600; color: #6b7280;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    }
+    .kb-results-header::before {
+      content: '💡'; font-size: 14px;
+    }
+    .kb-card {
+      border: 1px solid #e0e7ff; border-radius: 6px;
+      padding: 10px 14px; margin-bottom: 6px;
+      background: #f5f7ff; transition: background 0.15s;
+    }
+    .kb-card:hover { background: #ede9fe; border-color: #c4b5fd; }
+    .kb-card a {
+      font-size: 13px; color: #4338ca; text-decoration: none; font-weight: 600;
+      display: block; margin-bottom: 3px;
+    }
+    .kb-card a:hover { text-decoration: underline; }
+    .kb-card-body { font-size: 12px; color: #6b7280; line-height: 1.5; }
+    .kb-searching {
+      font-size: 12px; color: #9ca3af; padding: 6px 0;
+      display: none; align-items: center; gap: 6px;
+    }
+    .kb-searching.visible { display: flex; }
+    .kb-spinner {
+      width: 14px; height: 14px; border: 2px solid #e5e7eb;
+      border-top-color: #6366f1; border-radius: 50%;
+      animation: spin 0.6s linear infinite; flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ---- File upload ---- */
     .file-upload-area {
-      border: 2px dashed #d1d5db;
-      border-radius: 6px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      position: relative;
+      border: 2px dashed #d1d5db; border-radius: 6px; padding: 20px;
+      text-align: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s; position: relative;
     }
     .file-upload-area:hover { border-color: #3b82f6; background: #f8faff; }
     .file-upload-area input[type="file"] {
       position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
     }
-    .file-upload-icon { font-size: 28px; margin-bottom: 8px; }
-    .file-upload-text { font-size: 14px; color: #666; }
+    .file-upload-icon { font-size: 24px; margin-bottom: 6px; }
+    .file-upload-text { font-size: 13px; color: #666; }
     .file-upload-text span { color: #3b82f6; font-weight: 600; }
-    .file-names { margin-top: 8px; font-size: 13px; color: #555; }
+    .file-names { margin-top: 6px; font-size: 12px; color: #555; }
 
-    /* Checkbox */
+    /* ---- Checkbox ---- */
     .checkbox-group { display: flex; align-items: flex-start; gap: 10px; }
     .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; margin-top: 2px; flex-shrink: 0; }
     .checkbox-label { font-size: 14px; line-height: 1.6; }
     .checkbox-label a { color: #3b82f6; }
 
-    /* Submit */
+    /* ---- Submit ---- */
     .submit-btn {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      background: #2563eb;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 700;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      margin-top: 8px;
+      display: block; width: 100%; padding: 14px;
+      background: #2563eb; color: #fff; font-size: 16px; font-weight: 700;
+      border: none; border-radius: 8px; cursor: pointer;
+      transition: background 0.2s, transform 0.1s; margin-top: 8px;
     }
     .submit-btn:hover { background: #1d4ed8; }
     .submit-btn:active { transform: scale(0.99); }
     .submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
 
-    /* Messages */
+    /* ---- Messages ---- */
     .msg {
-      padding: 14px 18px;
-      border-radius: 6px;
-      font-size: 14px;
-      margin-bottom: 20px;
-      display: none;
+      padding: 14px 18px; border-radius: 6px; font-size: 14px;
+      margin-bottom: 20px; display: none;
     }
-    .msg.success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; display: block; }
-    .msg.error-msg { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; display: block; }
-
-    .error-text { font-size: 12px; color: #e53e3e; margin-top: 4px; display: none; }
-    .error-text.visible { display: block; }
+    .msg.success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+    .msg.error-msg { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
 
     @media (max-width: 600px) {
       .form-wrapper { padding: 24px 20px 36px; }
-      .form-title { font-size: 20px; }
+      .form-title { font-size: 18px; }
     }
   </style>
 </head>
 <body>
-
 <div class="form-wrapper">
+
   <div class="form-logo">
     <img src="https://www.jotform.com/uploads/naruki564/form_files/SmartF-logo-fullcolor-ver02-1000x1000.68db7b4a27d504.44206795.png" alt="スマートF ロゴ">
   </div>
-
-  <h1 class="form-title">スマートFお問い合わせフォーム</h1>
+  <h1 class="form-title">スマートF お問い合わせフォーム</h1>
   <p class="form-subtitle">「*」の内容は必須となります。</p>
 
-  <div id="successMsg" class="msg success" style="display:none">
+  <div id="successMsg" class="msg success">
     お問い合わせを受け付けました。担当者よりご連絡いたします。
   </div>
-  <div id="errorMsg" class="msg error-msg" style="display:none">
+  <div id="errorMsg" class="msg error-msg">
     送信に失敗しました。時間をおいて再度お試しください。
   </div>
 
@@ -206,7 +209,7 @@
     <div class="form-group">
       <label class="field-label" for="phone">電話番号</label>
       <input type="tel" id="phone" name="phone" placeholder="06-6539-5505" autocomplete="tel">
-      <div class="field-sublabel">※お問合せについては、原則メールにて回答とさせていただき、緊急性の高いものについてはお電話させていただくことがございます</div>
+      <div class="field-sublabel">※原則メールにて回答。緊急性の高いものはお電話する場合があります</div>
     </div>
 
     <!-- 会社名 -->
@@ -236,35 +239,26 @@
       <div class="error-text" id="categoryError">お問合せ種別を選択してください。</div>
     </div>
 
-    <!-- お問合せ内容 -->
-    <div class="form-group">
-      <label class="field-label" for="content">お問合せ内容 <span class="required">*</span></label>
-      <div id="contentHint" class="inquiry-hint"></div>
-      <textarea id="content" name="content" rows="10" placeholder="お問合せ内容を入力してください。"></textarea>
-      <div class="error-text" id="contentError">お問合せ内容を入力してください。</div>
-    </div>
+    <hr class="section-divider">
 
-    <!-- 情報記入欄（任意） -->
-    <div class="form-group">
-      <label class="field-label" for="extra">お問合せに関しての情報記入欄（任意）</label>
-      <div id="extraHint" class="inquiry-hint"></div>
-      <textarea id="extra" name="extra" rows="6" placeholder="補足情報があればご記入ください。"></textarea>
-    </div>
+    <!-- 1問1答エリア -->
+    <div id="qaSection"></div>
 
     <!-- 参考画像 -->
-    <div class="form-group">
-      <label class="field-label">参考画像</label>
-      <div class="file-upload-area" id="fileDropArea">
-        <input type="file" id="fileInput" name="files" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png,.gif,.zip">
+    <div class="form-group" id="fileGroup" style="display:none">
+      <label class="field-label">参考画像・添付ファイル</label>
+      <div class="file-upload-area">
+        <input type="file" id="fileInput" name="files" multiple
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png,.gif,.zip">
         <div class="file-upload-icon">📎</div>
-        <div class="file-upload-text">ファイルをドラッグ＆ドロップ、または <span>クリックして選択</span></div>
+        <div class="file-upload-text">ドラッグ＆ドロップ、または <span>クリックして選択</span></div>
         <div id="fileNames" class="file-names"></div>
       </div>
-      <div class="field-sublabel">CSVに関するお問合せの場合は、こちらに該当のCSVデータを添付してください。</div>
+      <div class="field-sublabel">CSVに関するお問合せの場合は、該当のCSVデータを添付してください。</div>
     </div>
 
     <!-- 個人情報同意 -->
-    <div class="form-group">
+    <div class="form-group" id="privacyGroup" style="display:none">
       <label class="field-label">個人情報の取り扱いへの同意</label>
       <div class="checkbox-group">
         <input type="checkbox" id="privacy" name="privacy">
@@ -274,170 +268,333 @@
       </div>
     </div>
 
-    <button type="submit" class="submit-btn" id="submitBtn">送信</button>
+    <button type="submit" class="submit-btn" id="submitBtn" style="display:none">送信</button>
   </form>
 </div>
 
 <script>
-  // ============================================================
-  // GAS 設定
-  // ============================================================
-  // GASをデプロイして取得したURLを貼り付けてください。
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbzvGfdYTb-VENuDe3UuFothDdfXpfLSKEXOXNcGenuQnltRILvuitJYkMVAFgXbPJBP/exec';
+// ================================================================
+// 設定
+// ================================================================
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzvGfdYTb-VENuDe3UuFothDdfXpfLSKEXOXNcGenuQnltRILvuitJYkMVAFgXbPJBP/exec';
 
-  // ============================================================
-  // 条件分岐ヒント
-  // ============================================================
-  const hints = {
-    content: {
-      '操作に関するお問合せ':
-`1：端末（PC、HT、WEBのいずれかを入力してください）
+// ================================================================
+// 設問定義
+// ================================================================
+const QUESTIONS = {
+  '操作に関するお問合せ': [
+    { label: '端末を教えてください',        placeholder: 'PC / HT / WEB のいずれかを入力してください',                      type: 'text',     required: true  },
+    { label: 'どの機能・画面でしょうか？',   placeholder: '例：生産一覧画面',                                              type: 'text',     required: true  },
+    { label: 'どのような処理ですか？',       placeholder: 'データ作成 / 現場での登録作業 / CSV入出力 / 帳票・ラベルなど',   type: 'text',     required: false },
+    { label: 'お問合せ内容の詳細を教えてください', placeholder: '具体的な状況や操作手順を記入してください',               type: 'textarea', required: true,  search: true },
+    { label: '（データ関連）該当の伝票No・品番等', placeholder: '例：伝票No.12345、品番：AB-001',                        type: 'text',     required: false },
+    { label: '（帳票関連）該当帳票のフォーマット名', placeholder: '例：出荷指示書',                                     type: 'text',     required: false },
+    { label: '（項目名変更・表示設定）該当画面と項目名', placeholder: '例：生産一覧画面 > 数量項目',                    type: 'text',     required: false },
+    { label: '（ラベル発行）どのメニューから発行しましたか？', placeholder: '例：在庫管理 > ラベル発行',               type: 'text',     required: false },
+  ],
+  'エラーや不具合に関するお問合せ': [
+    { label: '端末を教えてください',          placeholder: 'パソコン / ハンディ / WEB のいずれかを選択してください',        type: 'text',     required: true  },
+    { label: 'どの機能・画面でしょうか？',     placeholder: '例：生産一覧画面',                                           type: 'text',     required: true  },
+    { label: 'どのような処理ですか？',         placeholder: 'データ作成 / 現場での登録作業 / CSV入出力 / 帳票・ラベルなど', type: 'text',     required: false },
+    { label: '該当の伝票No・品番等',           placeholder: '例：伝票No.12345、品番：AB-001',                             type: 'text',     required: false },
+    { label: '症状について詳細を教えてください', placeholder: '具体的な症状をご記入ください',                            type: 'textarea', required: true,  search: true },
+    { label: 'エラー・警告メッセージ（あれば）', placeholder: 'スマートＦのメッセージはコピー可能です',                  type: 'textarea', required: false },
+    { label: 'いつから、どのようなタイミングで発生していますか？', placeholder: '例：先週月曜から、ログイン時に毎回発生', type: 'text',     required: false },
+  ],
+  'ライセンスに関するお問合せ': [
+    { label: 'お問合せの種類を教えてください', placeholder: '追加希望 / 入替希望 / 金額説明希望 / その他',               type: 'text',     required: true  },
+    { label: 'ライセンスについてのお問合せ詳細', placeholder: '詳細をご記入ください',                                    type: 'textarea', required: true,  search: true },
+    { label: '（入替希望の場合）入れ替えたいライセンス情報', placeholder: 'メインメニュー右上のアイコンよりご確認いただけます', type: 'text', required: false },
+  ],
+  'その他のお問合せ': [
+    { label: 'お問合せ内容の詳細を教えてください', placeholder: '詳細をご記入ください',                                  type: 'textarea', required: true,  search: true },
+  ],
+};
 
-2：どの機能／画面でしょうか（例：生産一覧画面）
+// ================================================================
+// 状態管理
+// ================================================================
+let currentAnswers = [];
+let visibleCount   = 0;
+let qaItems        = [];
+let kbTimer        = null;
 
-3：どのような処理でしょうか（データ作成、現場での登録作業、CSV入出力、帳票・ラベル）
+// ================================================================
+// カテゴリ選択
+// ================================================================
+document.getElementById('category').addEventListener('change', function () {
+  const cat = this.value;
+  buildQA(cat);
+});
 
-4：お問合せ内容について詳細を教えてください`,
+function buildQA(cat) {
+  const section = document.getElementById('qaSection');
+  section.innerHTML = '';
+  qaItems        = [];
+  currentAnswers = [];
+  visibleCount   = 0;
 
-      'エラーや不具合に関するお問合せ':
-`1：端末（パソコン、ハンディ、WEBのいずれを選択してください）
+  document.getElementById('fileGroup').style.display    = 'none';
+  document.getElementById('privacyGroup').style.display = 'none';
+  document.getElementById('submitBtn').style.display    = 'none';
 
-2：どの機能／画面でしょうか（例：生産一覧画面）
+  if (!cat || !QUESTIONS[cat]) return;
 
-3：どのような処理でしょうか（データ作成、現場での登録作業、CSV入出力、帳票・ラベル）
-
-4：該当の伝票No、品番等を教えてください
-
-5：症状について詳細を教えてください`,
-
-      'ライセンスに関するお問合せ':
-`1：ライセンスに関して追加希望／入替希望／金額説明希望／その他のいずれのお問合せか記載してください。
-
-2：ライセンスについてのお問合せ詳細を教えてください。`,
-    },
-    extra: {
-      '操作に関するお問合せ':
-`5：（データに関するお問合せの場合）該当の伝票No、品番等を教えてください。
-
-6：（帳票に関するお問合せの場合）該当帳票のフォーマット名を記載してください。
-
-7：（項目名変更、項目表示設定に関するお問合せの場合）該当画面と項目名を記入してください。
-
-8：（ラベル発行に関するお問合せの場合）どのメニュー名から発行したかご記載してください。`,
-
-      'エラーや不具合に関するお問合せ':
-`6：エラーや警告メッセージが表示されている場合は、メッセージをご入力ください
-　※スマートＦで表示されるメッセージはコピーが可能です
-
-7：いつからどのようなタイミングで発生していますか？`,
-
-      'ライセンスに関するお問合せ':
-`3：（ライセンスの入替希望に関するお問合せの場合）入れ替えを行いたいライセンス情報を記入してください。
-※ライセンス情報はメインメニュー右上のアイコンよりご確認いただけます`,
-    }
-  };
-
-  const categorySelect = document.getElementById('category');
-  const contentHint    = document.getElementById('contentHint');
-  const extraHint      = document.getElementById('extraHint');
-
-  categorySelect.addEventListener('change', () => {
-    const val = categorySelect.value;
-    updateHint(contentHint, hints.content[val]);
-    updateHint(extraHint,   hints.extra[val]);
+  const qs = QUESTIONS[cat];
+  qs.forEach((q, idx) => {
+    currentAnswers.push('');
+    const item = createQAItem(q, idx);
+    section.appendChild(item.wrapper);
+    qaItems.push(item);
   });
 
-  function updateHint(el, text) {
-    if (text) {
-      el.textContent = text;
-      el.classList.add('visible');
-    } else {
-      el.textContent = '';
-      el.classList.remove('visible');
-    }
+  // 最初の設問を表示
+  showQuestion(0);
+}
+
+function createQAItem(q, idx) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'qa-item';
+
+  const label = document.createElement('label');
+  label.className = 'qa-label';
+  label.htmlFor = `qa_${idx}`;
+  label.innerHTML = `<span class="qa-num">${idx + 1}</span>${q.label}${q.required ? '' : '<span class="qa-optional">任意</span>'}`;
+
+  let input;
+  if (q.type === 'textarea') {
+    input = document.createElement('textarea');
+    input.rows = 5;
+  } else {
+    input = document.createElement('input');
+    input.type = 'text';
+  }
+  input.id          = `qa_${idx}`;
+  input.placeholder = q.placeholder;
+
+  wrapper.appendChild(label);
+
+  // Kブック検索UIの挿入
+  if (q.search) {
+    const searching = document.createElement('div');
+    searching.className = 'kb-searching';
+    searching.id = `kb_searching_${idx}`;
+    searching.innerHTML = '<div class="kb-spinner"></div><span>関連記事を検索中...</span>';
+
+    const results = document.createElement('div');
+    results.className = 'kb-results';
+    results.id = `kb_results_${idx}`;
+
+    wrapper.appendChild(input);
+    wrapper.appendChild(searching);
+    wrapper.appendChild(results);
+
+    input.addEventListener('input', () => {
+      currentAnswers[idx] = input.value;
+      scheduleKBSearch(input.value, idx);
+      scheduleNextReveal(idx, input, q);
+    });
+    input.addEventListener('blur', () => {
+      currentAnswers[idx] = input.value;
+      revealNext(idx, q);
+    });
+  } else {
+    wrapper.appendChild(input);
+
+    input.addEventListener('input', () => {
+      currentAnswers[idx] = input.value;
+      scheduleNextReveal(idx, input, q);
+    });
+    input.addEventListener('blur', () => {
+      currentAnswers[idx] = input.value;
+      revealNext(idx, q);
+    });
   }
 
-  // ============================================================
-  // ファイル名表示
-  // ============================================================
-  document.getElementById('fileInput').addEventListener('change', function() {
-    const names = Array.from(this.files).map(f => f.name).join('、');
-    document.getElementById('fileNames').textContent = names || '';
+  return { wrapper, input };
+}
+
+function showQuestion(idx) {
+  if (idx >= qaItems.length) return;
+  if (visibleCount <= idx) {
+    qaItems[idx].wrapper.classList.add('visible');
+    visibleCount = idx + 1;
+    setTimeout(() => qaItems[idx].input.focus(), 420);
+  }
+}
+
+let revealTimers = {};
+function scheduleNextReveal(idx, input, q) {
+  clearTimeout(revealTimers[idx]);
+  if (!q.required || input.value.trim()) {
+    revealTimers[idx] = setTimeout(() => revealNext(idx, q), 1200);
+  }
+}
+
+function revealNext(idx, q) {
+  if (q.required && !currentAnswers[idx].trim()) return;
+  const next = idx + 1;
+  if (next < qaItems.length) {
+    showQuestion(next);
+  } else {
+    // 全設問完了 → 添付・同意・送信ボタンを表示
+    document.getElementById('fileGroup').style.display    = 'block';
+    document.getElementById('privacyGroup').style.display = 'block';
+    document.getElementById('submitBtn').style.display    = 'block';
+  }
+}
+
+// ================================================================
+// Kブック検索
+// ================================================================
+function scheduleKBSearch(query, idx) {
+  clearTimeout(kbTimer);
+  const resultsEl   = document.getElementById(`kb_results_${idx}`);
+  const searchingEl = document.getElementById(`kb_searching_${idx}`);
+
+  if (!query || query.trim().length < 4) {
+    if (resultsEl)   { resultsEl.classList.remove('visible'); resultsEl.innerHTML = ''; }
+    if (searchingEl) searchingEl.classList.remove('visible');
+    return;
+  }
+
+  if (searchingEl) searchingEl.classList.add('visible');
+
+  kbTimer = setTimeout(async () => {
+    try {
+      const url  = `${GAS_URL}?action=search&query=${encodeURIComponent(query.trim())}`;
+      const res  = await fetch(url);
+      const data = await res.json();
+
+      if (searchingEl) searchingEl.classList.remove('visible');
+      if (!resultsEl) return;
+
+      if (!data.results || data.results.length === 0) {
+        resultsEl.classList.remove('visible');
+        return;
+      }
+
+      resultsEl.innerHTML = `
+        <div class="kb-results-header">この記事で解決できるかもしれません</div>
+        ${data.results.map(a => `
+          <div class="kb-card">
+            <a href="${a.html_url}" target="_blank" rel="noopener">${a.title}</a>
+            <div class="kb-card-body">${stripHtml(a.body || '').slice(0, 80)}…</div>
+          </div>
+        `).join('')}
+      `;
+      resultsEl.classList.add('visible');
+    } catch (e) {
+      if (searchingEl) searchingEl.classList.remove('visible');
+    }
+  }, 600);
+}
+
+function stripHtml(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
+}
+
+// ================================================================
+// ファイル名表示
+// ================================================================
+document.getElementById('fileInput').addEventListener('change', function () {
+  const names = Array.from(this.files).map(f => f.name).join('、');
+  document.getElementById('fileNames').textContent = names;
+});
+
+// ================================================================
+// バリデーション
+// ================================================================
+function validate() {
+  let ok = true;
+
+  const baseRules = [
+    { id: 'email',    errId: 'emailError',    check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+    { id: 'company',  errId: 'companyError',  check: v => v.trim() !== '' },
+    { id: 'contact',  errId: 'contactError',  check: v => v.trim() !== '' },
+    { id: 'category', errId: 'categoryError', check: v => v !== '' },
+  ];
+
+  baseRules.forEach(({ id, errId, check }) => {
+    const el  = document.getElementById(id);
+    const err = document.getElementById(errId);
+    if (!check(el.value)) {
+      el.classList.add('error');
+      err.classList.add('visible');
+      ok = false;
+    } else {
+      el.classList.remove('error');
+      err.classList.remove('visible');
+    }
   });
 
-  // ============================================================
-  // バリデーション
-  // ============================================================
-  function validate() {
-    let ok = true;
-
-    const rules = [
-      { id: 'email',    errId: 'emailError',    check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
-      { id: 'company',  errId: 'companyError',  check: v => v.trim() !== '' },
-      { id: 'contact',  errId: 'contactError',  check: v => v.trim() !== '' },
-      { id: 'category', errId: 'categoryError', check: v => v !== '' },
-      { id: 'content',  errId: 'contentError',  check: v => v.trim() !== '' },
-    ];
-
-    rules.forEach(({ id, errId, check }) => {
-      const el  = document.getElementById(id);
-      const err = document.getElementById(errId);
-      if (!check(el.value)) {
-        el.classList.add('error');
-        err.classList.add('visible');
+  // 必須設問チェック
+  const cat = document.getElementById('category').value;
+  if (cat && QUESTIONS[cat]) {
+    QUESTIONS[cat].forEach((q, idx) => {
+      if (q.required && !currentAnswers[idx]?.trim()) {
+        const input = document.getElementById(`qa_${idx}`);
+        if (input) input.classList.add('error');
         ok = false;
-      } else {
-        el.classList.remove('error');
-        err.classList.remove('visible');
       }
     });
-
-    return ok;
   }
 
-  // ============================================================
-  // 送信
-  // ============================================================
-  document.getElementById('inquiryForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+  return ok;
+}
 
-    document.getElementById('successMsg').style.display = 'none';
-    document.getElementById('errorMsg').style.display   = 'none';
+// ================================================================
+// 送信
+// ================================================================
+document.getElementById('inquiryForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  document.getElementById('successMsg').style.display = 'none';
+  document.getElementById('errorMsg').style.display   = 'none';
 
-    if (!validate()) return;
+  if (!validate()) return;
 
-    const btn = document.getElementById('submitBtn');
-    btn.disabled    = true;
-    btn.textContent = '送信中...';
+  // 設問と回答を整形してcontentに集約
+  const cat = document.getElementById('category').value;
+  const qs  = QUESTIONS[cat] || [];
+  const contentLines = qs.map((q, i) => {
+    const ans = currentAnswers[i]?.trim();
+    if (!ans) return null;
+    return `【${q.label}】\n${ans}`;
+  }).filter(Boolean).join('\n\n');
 
-    const params = new URLSearchParams({
-      email:    document.getElementById('email').value,
-      phone:    document.getElementById('phone').value    || '（未入力）',
-      company:  document.getElementById('company').value,
-      contact:  document.getElementById('contact').value,
-      category: document.getElementById('category').value,
-      content:  document.getElementById('content').value,
-      extra:    document.getElementById('extra').value    || '（なし）',
-      privacy:  document.getElementById('privacy').checked ? '同意する' : '同意しない',
-    });
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true; btn.textContent = '送信中...';
 
-    try {
-      await fetch(GAS_URL, { method: 'POST', body: params, mode: 'no-cors' });
-      document.getElementById('successMsg').style.display = 'block';
-      document.getElementById('inquiryForm').reset();
-      contentHint.classList.remove('visible');
-      extraHint.classList.remove('visible');
-      document.getElementById('fileNames').textContent = '';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (err) {
-      console.error(err);
-      document.getElementById('errorMsg').style.display = 'block';
-    } finally {
-      btn.disabled    = false;
-      btn.textContent = '送信';
-    }
+  const params = new URLSearchParams({
+    email:    document.getElementById('email').value,
+    phone:    document.getElementById('phone').value || '（未入力）',
+    company:  document.getElementById('company').value,
+    contact:  document.getElementById('contact').value,
+    category: cat,
+    content:  contentLines,
+    extra:    '',
+    privacy:  document.getElementById('privacy').checked ? '同意する' : '同意しない',
   });
-</script>
 
+  try {
+    await fetch(GAS_URL, { method: 'POST', body: params, mode: 'no-cors' });
+    document.getElementById('successMsg').style.display = 'block';
+    document.getElementById('inquiryForm').reset();
+    document.getElementById('qaSection').innerHTML = '';
+    document.getElementById('fileGroup').style.display    = 'none';
+    document.getElementById('privacyGroup').style.display = 'none';
+    document.getElementById('submitBtn').style.display    = 'none';
+    currentAnswers = []; visibleCount = 0; qaItems = [];
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    console.error(err);
+    document.getElementById('errorMsg').style.display = 'block';
+  } finally {
+    btn.disabled = false; btn.textContent = '送信';
+  }
+});
+</script>
 </body>
 </html>
