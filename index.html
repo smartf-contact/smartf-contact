@@ -6,12 +6,18 @@
   <title>スマートF お問い合わせフォーム</title>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Inter','Hiragino Sans','Meiryo',sans-serif;background:#f5f5f5;color:#333;min-height:100vh;padding:40px 16px 80px}
+    body{font-family:"Inter","Hiragino Sans","Meiryo",sans-serif;background:#f5f5f5;color:#333;min-height:100vh;padding:40px 16px 80px}
     .form-wrapper{max-width:720px;margin:0 auto;background:#fff;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,0.08);padding:40px 48px 48px}
     .form-logo{text-align:center;margin-bottom:28px}
     .form-logo img{width:100px;height:auto}
     .form-title{font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
-    .form-subtitle{font-size:13px;color:#888;margin-bottom:32px}
+    .form-subtitle{font-size:13px;color:#888;margin-bottom:16px}
+    .form-notice{background:#f8faff;border:1px solid #dbeafe;border-radius:8px;padding:14px 18px;margin-bottom:28px;font-size:13px;color:#374151;line-height:1.8}
+    .form-notice ol{padding-left:18px}
+    .form-notice li{margin-bottom:6px}
+    .form-notice li:last-child{margin-bottom:0}
+    .form-notice a{color:#2563eb;font-weight:600;text-decoration:none}
+    .form-notice a:hover{text-decoration:underline}
     .form-group{margin-bottom:22px}
     label.field-label{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:#333}
     .field-sublabel{font-size:12px;color:#888;margin-top:4px}
@@ -20,12 +26,11 @@
     input[type="text"],input[type="email"],input[type="tel"],select,textarea{width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;font-family:inherit;color:#333;background:#fff;transition:border-color .2s;outline:none}
     input:focus,select:focus,textarea:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
     input.error,select.error,textarea.error{border-color:#e53e3e}
-    select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
+    select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%278%27 viewBox=%270 0 12 8%27%3E%3Cpath d=%27M1 1l5 5 5-5%27 stroke=%27%23666%27 stroke-width=%271.5%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
     textarea{resize:vertical;line-height:1.6}
     .error-text{font-size:12px;color:#e53e3e;margin-top:4px;display:none}
     .error-text.visible{display:block}
     .section-divider{border:none;border-top:1px solid #e5e7eb;margin:28px 0}
-    /* --- 設問プログレス --- */
     .qa-progress{display:none;background:#f0f4ff;border:1px solid #c7d7fe;border-radius:8px;padding:14px 16px;margin-bottom:20px}
     .qa-progress.visible{display:block}
     .qa-progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -37,7 +42,6 @@
     .qa-step{flex:1;height:5px;border-radius:99px;background:#dbeafe;transition:background .3s}
     .qa-step.done{background:#2563eb}
     .qa-step.active{background:#93c5fd}
-    /* --- QAアイテム --- */
     .qa-item{overflow:hidden;max-height:0;opacity:0;transition:max-height .4s ease,opacity .35s ease,margin-bottom .4s ease;margin-bottom:0}
     .qa-item.visible{max-height:600px;opacity:1;margin-bottom:22px}
     .qa-label{display:block;font-size:14px;font-weight:600;color:#1e40af;margin-bottom:6px}
@@ -46,7 +50,6 @@
     .qa-item input[type="text"]:focus,.qa-item textarea:focus{border-color:#3b82f6;background:#fff}
     .qa-item select{border-color:#bfdbfe;background:#f8faff}
     .qa-item select:focus{border-color:#3b82f6;background:#fff}
-    /* --- ファイル --- */
     .file-upload-area{border:2px dashed #d1d5db;border-radius:6px;padding:20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative}
     .file-upload-area:hover{border-color:#3b82f6;background:#f8faff}
     .file-upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
@@ -57,13 +60,11 @@
     .file-name-item{background:#f0f9ff;border:1px solid #bae6fd;border-radius:4px;padding:4px 8px;margin-top:4px;display:flex;align-items:center;gap:6px}
     .file-error{font-size:12px;color:#e53e3e;margin-top:6px;display:none}
     .file-error.visible{display:block}
-    /* --- チェックボックス --- */
     .checkbox-group{display:flex;align-items:flex-start;gap:10px}
     .checkbox-group input[type="checkbox"]{width:18px;height:18px;cursor:pointer;margin-top:2px;flex-shrink:0;accent-color:#2563eb}
     .checkbox-group input[type="checkbox"].error{outline:2px solid #e53e3e;border-radius:2px}
     .checkbox-label{font-size:14px;line-height:1.6}
     .checkbox-label a{color:#3b82f6}
-    /* --- ボタン・メッセージ --- */
     .submit-btn{display:block;width:100%;padding:14px;background:#2563eb;color:#fff;font-size:16px;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:background .2s,transform .1s;margin-top:8px}
     .submit-btn:hover{background:#1d4ed8}
     .submit-btn:active{transform:scale(.99)}
@@ -73,14 +74,20 @@
     .msg.error-msg{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}
     @media(max-width:600px){.form-wrapper{padding:24px 20px 36px}.form-title{font-size:18px}}
   </style>
-</head>
-<body>
+</head><body>
 <div class="form-wrapper">
   <div class="form-logo">
     <img src="https://www.jotform.com/uploads/naruki564/form_files/SmartF-logo-fullcolor-ver02-1000x1000.68db7b4a27d504.44206795.png" alt="スマートF ロゴ">
   </div>
   <h1 class="form-title">スマートF お問い合わせフォーム</h1>
   <p class="form-subtitle">お問い合わせ内容を入力してください。</p>
+  <div class="form-notice">
+    <ol>
+      <li>ご質問・操作のお困りごとは <a href="https://smartf-nexta.zendesk.com/hc/ja?kbook_ai=open" target="_blank" rel="noopener">KブックのAIチャット</a>が24時間お答えしますので、ご活用ください。</li>
+      <li>本問合せフォームより受付可能なお客様については本契約いただいている企業様のみとなります。トライアルやシステム導入をご検討中の企業様は別途弊社ご担当者までご連絡ください。</li>
+      <li>お問い合わせいただいた内容については、<a href="https://smartf-nexta.zendesk.com/hc/ja/requests" target="_blank" rel="noopener">リクエストページ</a>よりご確認可能です。</li>
+    </ol>
+  </div>
   <div id="successMsg" class="msg success">お問い合わせを受け付けました。担当者よりご連絡いたします。</div>
   <div id="errorMsg" class="msg error-msg">送信に失敗しました。時間をおいて再度お試しください。</div>
   <form id="inquiryForm" novalidate>
@@ -129,8 +136,8 @@
       <label class="field-label">参考画像・添付ファイル <span class="badge-optional">任意</span></label>
       <div class="file-upload-area">
         <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png,.gif,.zip">
-        <div class="file-upload-icon">📎</div>
-        <div class="file-upload-text">ドラッグ＆ドロップ、または <span>クリックして選択</span></div>
+        <div class="file-upload-icon">&#128206;</div>
+        <div class="file-upload-text">ドラッグ&amp;ドロップ、または <span>クリックして選択</span></div>
         <div id="fileNames" class="file-names"></div>
       </div>
       <div class="file-error" id="fileError">アップロードできるファイルは3つまでです。</div>
@@ -146,10 +153,9 @@
     </div>
     <button type="submit" class="submit-btn" id="submitBtn" style="display:none">送信</button>
   </form>
-</div>
-<script>
+</div><script>
 (function(){
-  var ZENDESK_BASE='https://smartf-nexta.zendesk.com';
+  var ZB='https://smartf-nexta.zendesk.com';
   var Q={
     '操作に関するお問合せ':[
       {label:'端末を教えてください',type:'select',options:['PC','HT','WEB','その他'],required:true},
@@ -171,11 +177,10 @@
       {label:'いつから、どのようなタイミングで発生していますか？',placeholder:'例：先週月曜から、ログイン時に毎回発生',type:'text',required:false,noReveal:true}
     ],
     'ライセンスに関するお問合せ':[
-      {label:'お問合せの種類を教えてください',type:'select',options:['追加希望','入替希望','契約状況確認','その他'],required:true,
+      {label:'お問合せの種類を教えてください',type:'select',options:['追加希望','入替希望','その他'],required:true,
        conditionalNext:{
          '追加希望':[{label:'追加希望のライセンス数',placeholder:'例：3ライセンス',type:'text',required:true},{label:'ライセンスについてのお問合せ詳細',placeholder:'詳細をご記入ください',type:'textarea',required:true}],
          '入替希望':[{label:'入れ替えたいライセンス情報',placeholder:'メインメニュー右上のアイコンよりご確認いただけます',type:'text',required:true},{label:'ライセンスについてのお問合せ詳細',placeholder:'詳細をご記入ください',type:'textarea',required:true}],
-         '契約状況確認':[{label:'ライセンスについてのお問合せ詳細',placeholder:'詳細をご記入ください',type:'textarea',required:true}],
          'その他':[{label:'ライセンスについてのお問合せ詳細',placeholder:'詳細をご記入ください',type:'textarea',required:true}]
        }}
     ],
@@ -185,47 +190,38 @@
   };
 
   var ans=[],vis=0,items=[];
-
   document.getElementById('category').addEventListener('change',function(){buildQA(this.value);});
 
   function buildQA(cat){
     var sec=document.getElementById('qaSection');
-    sec.innerHTML=''; items=[]; ans=[]; vis=0; hideFinal();
+    sec.innerHTML='';items=[];ans=[];vis=0;hideFinal();
     var pg=document.getElementById('qaProgress');
     if(!cat||!Q[cat]){pg.classList.remove('visible');return;}
     Q[cat].forEach(function(q,i){ans.push('');var it=makeItem(q,i);sec.appendChild(it.w);items.push(it);});
-    pg.classList.add('visible');
-    renderSteps(items.length);
-    updProg(1,items.length);
-    show(0);
+    pg.classList.add('visible');renderSteps(items.length);updProg(1,items.length);show(0);
   }
 
   function rebuildAfter(idx,nq){
     var sec=document.getElementById('qaSection');
     for(var i=idx+1;i<items.length;i++){if(items[i].w.parentNode)items[i].w.parentNode.removeChild(items[i].w);}
-    items=items.slice(0,idx+1); ans=ans.slice(0,idx+1); vis=idx+1; hideFinal();
+    items=items.slice(0,idx+1);ans=ans.slice(0,idx+1);vis=idx+1;hideFinal();
     if(!nq||!nq.length){showFinal();return;}
     nq.forEach(function(q){var ni=items.length;ans.push('');var it=makeItem(q,ni);sec.appendChild(it.w);items.push(it);});
-    renderSteps(items.length); updProg(vis,items.length); show(idx+1);
+    renderSteps(items.length);updProg(vis,items.length);show(idx+1);
   }
 
   function renderSteps(n){
-    var el=document.getElementById('qaSteps'); el.innerHTML='';
+    var el=document.getElementById('qaSteps');el.innerHTML='';
     for(var i=0;i<n;i++){var s=document.createElement('div');s.className='qa-step';s.id='qs_'+i;el.appendChild(s);}
   }
-
   function updProg(shown,total){
     if(!total)return;
     var pct=Math.round(shown/total*100);
     document.getElementById('qaProgressText').textContent='設問 '+shown+' / '+total;
     document.getElementById('qaProgressPct').textContent=pct+'%';
     document.getElementById('qaBar').style.width=pct+'%';
-    for(var i=0;i<total;i++){
-      var s=document.getElementById('qs_'+i);
-      if(s)s.className='qa-step'+(i<shown-1?' done':i===shown-1?' active':'');
-    }
+    for(var i=0;i<total;i++){var s=document.getElementById('qs_'+i);if(s)s.className='qa-step'+(i<shown-1?' done':i===shown-1?' active':'');}
   }
-
   function showFinal(){document.getElementById('fileGroup').style.display='block';document.getElementById('privacyGroup').style.display='block';document.getElementById('submitBtn').style.display='block';}
   function hideFinal(){document.getElementById('fileGroup').style.display='none';document.getElementById('privacyGroup').style.display='none';document.getElementById('submitBtn').style.display='none';}
 
@@ -246,7 +242,7 @@
     w.appendChild(lbl);w.appendChild(inp);
     if(q.type==='select'){
       inp.addEventListener('change',function(){
-        ans[idx]=inp.value; if(!inp.value)return;
+        ans[idx]=inp.value;if(!inp.value)return;
         if(q.conditionalNext)rebuildAfter(idx,q.conditionalNext[inp.value]||[]);
         else revealNext(idx,q);
       });
@@ -260,10 +256,9 @@
   function show(idx){
     if(idx>=items.length||vis>idx)return;
     items[idx].w.classList.add('visible');
-    vis=idx+1; updProg(vis,items.length);
+    vis=idx+1;updProg(vis,items.length);
     if(items[idx].inp.tagName!=='SELECT')setTimeout(function(){items[idx].inp.focus();},420);
   }
-
   var rt={};
   function schedRev(idx,inp,q){clearTimeout(rt[idx]);if(!q.required||inp.value.trim())rt[idx]=setTimeout(function(){revealNext(idx,q);},1200);}
   function revealNext(idx,q){
@@ -303,7 +298,7 @@
   }
 
   async function uploadFile(file){
-    var r=await fetch(ZENDESK_BASE+'/api/v2/uploads.json?filename='+encodeURIComponent(file.name),{method:'POST',headers:{'Content-Type':file.type||'application/octet-stream'},body:file});
+    var r=await fetch(ZB+'/api/v2/uploads.json?filename='+encodeURIComponent(file.name),{method:'POST',headers:{'Content-Type':file.type||'application/octet-stream'},body:file});
     if(!r.ok)throw new Error('upload failed');
     return(await r.json()).upload.token;
   }
@@ -315,17 +310,17 @@
     if(!validate())return;
     var cat=document.getElementById('category').value,
         email=document.getElementById('email').value,
-        phone=document.getElementById('phone').value||'（未入力）',
+        phone=document.getElementById('phone').value||'(未入力)',
         company=document.getElementById('company').value,
         contact=document.getElementById('contact').value;
-    var qaLines=items.map(function(it,i){var a=(ans[i]||'').trim();return a?'【'+it.q.label+'】\n'+a:null;}).filter(Boolean).join('\n\n');
+    var qaLines=items.map(function(it,i){var a=(ans[i]||'').trim();return a?'《'+it.q.label+'》\n'+a:null;}).filter(Boolean).join('\n\n');
     var body=['■ 会社名：'+company,'■ ご担当者名：'+contact,'■ 電話番号：'+phone,'','━━━━━━━━━━━━━━━━━━━━━━━━━━',qaLines].join('\n');
     var btn=document.getElementById('submitBtn');btn.disabled=true;btn.textContent='送信中...';
     try{
       var tokens=[],files=document.getElementById('fileInput').files;
       for(var i=0;i<files.length;i++)tokens.push(await uploadFile(files[i]));
-      var r=await fetch(ZENDESK_BASE+'/api/v2/requests.json',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({request:{subject:'【'+cat+'】'+company,comment:{body:body,uploads:tokens},requester:{name:contact,email:email}}})});
+      var r=await fetch(ZB+'/api/v2/requests.json',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({request:{subject:'『'+cat+'』'+company,comment:{body:body,uploads:tokens},requester:{name:contact,email:email}}})});
       if(!r.ok)throw new Error('HTTP '+r.status);
       document.getElementById('successMsg').style.display='block';
       document.getElementById('inquiryForm').reset();
