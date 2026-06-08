@@ -16,7 +16,7 @@
     label.field-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: #333; }
     .field-sublabel { font-size: 12px; color: #888; margin-top: 4px; }
     .badge-required { display: inline-block; font-size: 11px; font-weight: 700; color: #fff; background: #e53e3e; padding: 2px 7px; border-radius: 4px; margin-left: 8px; vertical-align: middle; letter-spacing: 0.02em; }
-    .badge-optional { display: inline-block; font-size: 11px; font-weight: 600; color: #6b7280; background: #f3f4f6; border: 1px solid #d1d5db; padding: 2px 7px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+    .badge-optional { display: inline-block; font-size: 11px; font-weight: 700; color: #fff; background: #6b7280; padding: 2px 7px; border-radius: 4px; margin-left: 8px; vertical-align: middle; letter-spacing: 0.02em; }
     input[type="text"], input[type="email"], input[type="tel"], select, textarea { width: 100%; padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; font-family: inherit; color: #333; background: #fff; transition: border-color 0.2s; outline: none; }
     input:focus, select:focus, textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
     input.error, select.error, textarea.error { border-color: #e53e3e; }
@@ -125,14 +125,8 @@
   </form>
 </div>
 <script>
-  // ================================================================
-  // 設定
-  // ================================================================
   var ZENDESK_BASE = 'https://smartf-nexta.zendesk.com';
 
-  // ================================================================
-  // 設問定義
-  // ================================================================
   var QUESTIONS = {
     '操作に関するお問合せ': [
       { label: '端末を教えてください', type: 'select', options: ['PC', 'HT', 'WEB', 'その他'], required: true },
@@ -289,9 +283,6 @@
     if (nextStart >= qaItems.length || q.revealFinal) showFinalSection();
   }
 
-  // ================================================================
-  // ファイルアップロード（最大3ファイル）
-  // ================================================================
   document.getElementById('fileInput').addEventListener('change', function() {
     var fileError = document.getElementById('fileError');
     var fileNames = document.getElementById('fileNames');
@@ -302,9 +293,6 @@
     fileNames.innerHTML = Array.from(this.files).map(function(f) { return '<div class="file-name-item">' + f.name + '</div>'; }).join('');
   });
 
-  // ================================================================
-  // バリデーション
-  // ================================================================
   function validate() {
     var ok = true;
     var baseRules = [
@@ -326,9 +314,6 @@
     return ok;
   }
 
-  // ================================================================
-  // Zendesk Upload API でファイルをアップロードしてトークンを取得
-  // ================================================================
   async function uploadFileToZendesk(file) {
     var res = await fetch(
       ZENDESK_BASE + '/api/v2/uploads.json?filename=' + encodeURIComponent(file.name),
@@ -339,9 +324,6 @@
     return data.upload.token;
   }
 
-  // ================================================================
-  // 送信（Zendesk Requests API）
-  // ================================================================
   document.getElementById('inquiryForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     document.getElementById('successMsg').style.display = 'none';
@@ -355,7 +337,6 @@
     var contact = document.getElementById('contact').value;
     var privacy = document.getElementById('privacy').checked ? '同意する' : '同意しない';
 
-    // QA回答を本文に整形
     var qaLines = qaItems.map(function(item, i) {
       var ans = (currentAnswers[i] || '').trim();
       return ans ? '【' + item.qDef.label + '】\n' + ans : null;
@@ -375,7 +356,6 @@
     btn.disabled = true; btn.textContent = '送信中...';
 
     try {
-      // ファイルアップロード
       var uploadTokens = [];
       var files = document.getElementById('fileInput').files;
       for (var i = 0; i < files.length; i++) {
@@ -383,7 +363,6 @@
         uploadTokens.push(token);
       }
 
-      // チケット起票
       var payload = {
         request: {
           subject: '【' + cat + '】' + company,
@@ -417,4 +396,3 @@
 </script>
 </body>
 </html>
-
